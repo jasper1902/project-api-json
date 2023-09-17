@@ -10,6 +10,8 @@ import { MulterError } from "multer";
 import { Query, ParamsDictionary } from "express-serve-static-core";
 import cors from "cors";
 
+const PORT = process.env.PORT || 5000;
+
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -297,4 +299,4 @@ app.get("/public/images/:imageName", (req, res) => {
   });
 });
 
-app.listen(5002, () => console.log("listening on port 5002"));
+app.listen(PORT, () => console.log("listening on port ", PORT));
