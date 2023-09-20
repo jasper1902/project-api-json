@@ -8,6 +8,7 @@ import verifyAdmin from "./verify";
 import { image, pdf } from "./multer";
 import { MulterError } from "multer";
 import { Query, ParamsDictionary } from "express-serve-static-core";
+import nodemailer from "nodemailer";
 import cors from "cors";
 
 const PORT = process.env.PORT || 5000;
@@ -241,6 +242,34 @@ app.post("/api/user/login", async (request: Request, response: Response) => {
     );
 
     response.status(200).json({ message: "Login successful", token });
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/api/contact/", async (request: Request, response: Response) => {
+  try {
+    const { name, email, subject, message } = request.body;
+
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
+      subject: subject,
+      text: `name: ${name}, email: ${email} - message: ${message}`,
+    };
+
+    await transporter.sendMail(mailOptions);
   } catch (error) {
     console.error(error);
     response.status(500).json({ error: "Internal server error" });
