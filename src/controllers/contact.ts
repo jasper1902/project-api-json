@@ -21,7 +21,7 @@ export const contact = async (
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: email,
+      to: process.env.EMAIL,
       subject: subject,
       text: `name: ${name}, email: ${email} - message: ${message}`,
     };
