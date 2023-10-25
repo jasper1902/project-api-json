@@ -27,7 +27,7 @@ const verifyAdmin = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const decoded = jwt.verify(token, tokenConfig) as UserPayload;
-    if (decoded.role !== "admin") {
+    if (decoded.user.role !== "admin") {
       return res
         .status(403)
         .json({ message: "You don't have permission to access" });

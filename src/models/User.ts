@@ -80,7 +80,7 @@ userSchema.method(
         },
       },
       process.env.TOKEN,
-      { expiresIn: "1d" }
+      { expiresIn: "7d" }
     );
     return token;
   }
